@@ -3,11 +3,11 @@
 		text: string;
 		done: boolean;
 	};
-	type Filters = 'All' | 'Active' | 'Completed';
+	type Filters = 'all' | 'active' | 'completed';
 
 	let todos = $state<Todo[]>([]);
-	let filter = $state<Filters>('All');
-	let filteredTodos = $derived(filterTodos(filter, todos));
+	let filter = $state<Filters>('all');
+	let filteredTodos = $derived(filterTodos());
 
 	function addTodo(event: KeyboardEvent) {
 		// check if enter key was pressed
@@ -45,16 +45,14 @@
 		filter = newFilter;
 	}
 
-	function filterTodos(filter: Filters, todos: Todo[]) {
+	function filterTodos() {
 		switch (filter) {
-			case 'All':
+			case 'all':
 				return todos;
-			case 'Active':
+			case 'active':
 				return todos.filter((todo) => !todo.done);
-			case 'Completed':
+			case 'completed':
 				return todos.filter((todo) => todo.done);
-			default:
-				return todos;
 		}
 	}
 </script>
@@ -65,13 +63,13 @@
 	{#each filteredTodos as todo, i}
 		<div class="todo">
 			<input oninput={editTodo} data-index={i} value={todo.text} type="text" />
-			<input onchange={toggleTodo} data-index={i} value={todo.done} type="checkbox" />
+			<input onchange={toggleTodo} data-index={i} checked={todo.done} type="checkbox" />
 		</div>
 	{/each}
 </div>
 
 <div class="filters">
-	{#each ['All', 'Active', 'Completed'] as filter}
+	{#each ['all', 'active', 'completed'] as filter}
 		<button onclick={() => setFilter(filter)}>{filter}</button>
 	{/each}
 </div>
