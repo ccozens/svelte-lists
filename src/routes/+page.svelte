@@ -1,10 +1,26 @@
-<script>
+<script lang="ts">
 	let todos = $state([
 		{ text: 'Todo 1', done: false },
 		{ text: 'Todo 2', done: true },
 		{ text: 'Todo 3', done: false }
 	]);
+
+    function addTodo(event: KeyboardEvent) {
+        // check if enter key was pressed
+        if (event.key !== 'Enter') return;
+
+        // type todo
+        const todoElement = event.target as HTMLInputElement;
+        const text = todoElement.value;
+        // add to todos array
+        todos = [...todos, { text, done: false }];
+
+        // blank input after adding to array
+        todoElement.value = '';
+    }
 </script>
+
+<input onkeydown={addTodo} placeholder="Add todo" type="text"  />
 
 <div class="todos">
 	{#each todos as todo, i}
