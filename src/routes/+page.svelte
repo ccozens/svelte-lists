@@ -1,8 +1,12 @@
 <script lang="ts">
-	let todos = $state([
-		{ text: 'Todo 1', done: false },
-		{ text: 'Todo 2', done: false }
-	]);
+type Todo = {
+    text: string;
+    done: boolean;
+};
+type Filters = 'all' | 'active' | 'completed';
+
+	let todos = $state<Todo[]>([]);
+    let filters = $state<Filters>('all');
 
     function addTodo(event: KeyboardEvent) {
         // check if enter key was pressed
