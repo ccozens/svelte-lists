@@ -32,7 +32,7 @@
 	}
 
 	input[type='text'] {
-        background-color: dimgrey;
+        background: #263238;
         color: white;
 		width: 100%;
 		padding: 1rem;
