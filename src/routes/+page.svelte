@@ -1,8 +1,7 @@
 <script lang="ts">
 	let todos = $state([
 		{ text: 'Todo 1', done: false },
-		{ text: 'Todo 2', done: true },
-		{ text: 'Todo 3', done: false }
+		{ text: 'Todo 2', done: false }
 	]);
 
     function addTodo(event: KeyboardEvent) {
@@ -30,6 +29,13 @@
         // reassign todo text in array
         todos[index].text = inputEl.value;
     }
+
+    function toggleTodo(event: Event) {
+        const inputEl = event.target as HTMLInputElement;
+        const index = +inputEl.dataset.index!
+        todos[index].done = !todos[index].done;
+    };
+
 </script>
 
 <input onkeydown={addTodo} placeholder="Add todo" type="text"  />
@@ -38,7 +44,7 @@
 	{#each todos as todo, i}
 		<div class="todo">
 			<input oninput={editTodo} data-index={i} value={todo.text} type="text" />
-			<input value={todo.done} type="checkbox" />
+			<input onchange={toggleTodo} data-index={i} value={todo.done} type="checkbox" />
 		</div>
 	{/each}
 </div>
