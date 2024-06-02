@@ -9,24 +9,23 @@
 	let filter = $state<Filters>('all');
 	let filteredTodos = $derived(filterTodos());
 
+	// get todos from local storage
+	$effect(() => {
+		// check for todos already stored
+		const savedTodos = localStorage.getItem('todos');
+		console.log('local storage', savedTodos);
+		// if there are saved todos, set them to the todos array
+		if (savedTodos) {
+			todos = JSON.parse(savedTodos);
+		}
+	});
 
-        // get todos from local storage
-        $effect(() => {
-            // check for todos already stored
-            const savedTodos = localStorage.getItem('todos');
-            console.log('local storage', savedTodos);
-            // if there are saved todos, set them to the todos array
-            if (savedTodos) {
-                todos = JSON.parse(savedTodos)
-            }
-        })
+	// save todos to local storage
+	$effect(() => {
+		localStorage.setItem('todos', JSON.stringify(todos));
+	});
 
-        // save todos to local storage
-        $effect(() => {
-            localStorage.setItem('todos', JSON.stringify(todos))
-        })
-
-
+	// function to add todo
 	function addTodo(event: KeyboardEvent) {
 		// check if enter key was pressed
 		if (event.key !== 'Enter') return;
@@ -41,6 +40,7 @@
 		todoElement.value = '';
 	}
 
+	// function to edit todo
 	function editTodo(event: Event) {
 		// extract and type todo
 		const inputEl = event.target as HTMLInputElement;
@@ -53,16 +53,31 @@
 		todos[index].text = inputEl.value;
 	}
 
+	// function to toggle todo
 	function toggleTodo(event: Event) {
 		const inputEl = event.target as HTMLInputElement;
 		const index = +inputEl.dataset.index!;
 		todos[index].done = !todos[index].done;
 	}
 
+	// function to uncomplete all todos
+	function clearCompleted() {
+		todos = todos.map((todo) => ({ ...todo, done: false }));
+	}
+
+	// function to delete todo
+	function deleteTodo(event: Event) {
+		const inputEl = event.target as HTMLInputElement;
+		const index = +inputEl.dataset.index!;
+		todos = todos.filter((todo, i) => i !== index);
+	}
+
+	// function to set filter
 	function setFilter(newFilter: Filters) {
 		filter = newFilter;
 	}
 
+	// function to filter todos
 	function filterTodos() {
 		switch (filter) {
 			case 'all':
@@ -74,10 +89,10 @@
 		}
 	}
 
-    // return count of todos still todo
-    function remaining() {
-        return todos.filter((todo) => !todo.done).length
-    }
+	// return count of todos still todo
+	function remaining() {
+		return todos.filter((todo) => !todo.done).length;
+	}
 </script>
 
 <input onkeydown={addTodo} placeholder="Add todo" type="text" />
@@ -87,6 +102,7 @@
 		<div class:completed={todo.done} class="todo">
 			<input oninput={editTodo} data-index={i} value={todo.text} type="text" />
 			<input onchange={toggleTodo} data-index={i} checked={todo.done} type="checkbox" />
+			<button onclick={deleteTodo} data-index={i}>Delete</button>
 		</div>
 	{/each}
 </div>
@@ -95,6 +111,7 @@
 	{#each ['all', 'active', 'completed'] as filter}
 		<button onclick={() => setFilter(filter)}>{filter}</button>
 	{/each}
+	<button onclick={clearCompleted}>Clear completed</button>
 </div>
 
 <p class="remaining">{remaining()} items left</p>
@@ -133,9 +150,9 @@
 		margin-block: 1rem;
 	}
 
-    .remaining {
-        color: white;
-    }
+	.remaining {
+		color: white;
+	}
 	button {
 		margin-inline-end: 1rem;
 		background: #727475;
