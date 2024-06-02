@@ -55,6 +55,11 @@
 				return todos.filter((todo) => todo.done);
 		}
 	}
+
+    // return count of todos still todo
+    function remaining() {
+        return todos.filter((todo) => !todo.done).length
+    }
 </script>
 
 <input onkeydown={addTodo} placeholder="Add todo" type="text" />
@@ -73,6 +78,8 @@
 		<button onclick={() => setFilter(filter)}>{filter}</button>
 	{/each}
 </div>
+
+<p class="remaining">{remaining()} items left</p>
 
 <style>
 	.todos {
@@ -108,6 +115,9 @@
 		margin-block: 1rem;
 	}
 
+    .remaining {
+        color: white;
+    }
 	button {
 		margin-inline-end: 1rem;
 		background: #727475;
