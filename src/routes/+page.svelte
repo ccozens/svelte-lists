@@ -9,6 +9,24 @@
 	let filter = $state<Filters>('all');
 	let filteredTodos = $derived(filterTodos());
 
+
+        // get todos from local storage
+        $effect(() => {
+            // check for todos already stored
+            const savedTodos = localStorage.getItem('todos');
+            console.log('local storage', savedTodos);
+            // if there are saved todos, set them to the todos array
+            if (savedTodos) {
+                todos = JSON.parse(savedTodos)
+            }
+        })
+
+        // save todos to local storage
+        $effect(() => {
+            localStorage.setItem('todos', JSON.stringify(todos))
+        })
+
+
 	function addTodo(event: KeyboardEvent) {
 		// check if enter key was pressed
 		if (event.key !== 'Enter') return;
