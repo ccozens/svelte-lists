@@ -61,7 +61,7 @@
 
 <div class="todos">
 	{#each filteredTodos as todo, i}
-		<div class="todo">
+		<div class:completed={todo.done} class="todo">
 			<input oninput={editTodo} data-index={i} value={todo.text} type="text" />
 			<input onchange={toggleTodo} data-index={i} checked={todo.done} type="checkbox" />
 		</div>
@@ -86,7 +86,7 @@
 		transition: opacity 0.3s;
 	}
 
-	.Completed {
+	.completed {
 		opacity: 0.4;
 	}
 
