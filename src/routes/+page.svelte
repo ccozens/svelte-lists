@@ -97,9 +97,9 @@
 
 <input onkeydown={addTodo} placeholder="Add todo" type="text" />
 
-<div class="todos">
+<div class="grid gap-4">
 	{#each filteredTodos as todo, i}
-		<div class:completed={todo.done} class="todo">
+		<div class={todo.done ? 'transition duration-300 opacity-50 relative' : 'relative'}>
 			<input oninput={editTodo} data-index={i} value={todo.text} type="text" />
 			<input onchange={toggleTodo} data-index={i} checked={todo.done} type="checkbox" />
 			<button onclick={deleteTodo} data-index={i}>Delete</button>
@@ -107,34 +107,20 @@
 	{/each}
 </div>
 
-<div class="filters">
+<div class="m-4">
 	{#each ['all', 'active', 'completed'] as filter}
 		<button onclick={() => setFilter(filter)}>{filter}</button>
 	{/each}
 	<button onclick={clearCompleted}>Clear completed</button>
 </div>
 
-<p class="remaining">{remaining()} items left</p>
+<p>{remaining()} items left</p>
 
 <style>
-	.todos {
-		display: grid;
-		gap: 1rem;
-		margin-block-start: 1rem;
-	}
 
-	.todo {
-		position: relative;
-		transition: opacity 0.3s;
-	}
-
-	.completed {
-		opacity: 0.4;
-	}
 
 	input[type='text'] {
 		background: #263238;
-		color: white;
 		width: 100%;
 		padding: 1rem;
 	}
@@ -146,17 +132,9 @@
 		translate: 0% -50%;
 	}
 
-	.filters {
-		margin-block: 1rem;
-	}
-
-	.remaining {
-		color: white;
-	}
 	button {
 		margin-inline-end: 1rem;
 		background: #727475;
-		color: white;
 		border: none;
 		padding: 0.5rem 1rem;
 		border-radius: 0.25rem;
