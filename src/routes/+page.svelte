@@ -1,4 +1,7 @@
 <script lang="ts">
+
+import DeleteIcon from '$lib/icons/delete.svelte';
+
 	type Todo = {
 		text: string;
 		done: boolean;
@@ -13,7 +16,6 @@
 	$effect(() => {
 		// check for todos already stored
 		const savedTodos = localStorage.getItem('todos');
-		console.log('local storage', savedTodos);
 		// if there are saved todos, set them to the todos array
 		if (savedTodos) {
 			todos = JSON.parse(savedTodos);
@@ -93,52 +95,32 @@
 	function remaining() {
 		return todos.filter((todo) => !todo.done).length;
 	}
+
+    let capitalize="capitalize"
+    let buttonStyle = "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 rounded"
 </script>
 
-<input onkeydown={addTodo} placeholder="Add todo" type="text" />
+<input onkeydown={addTodo} placeholder="Add todo" type="text" class="input-text m-4"/>
 
-<div class="grid gap-4">
+<div class="grid gap-4 m-4">
 	{#each filteredTodos as todo, i}
 		<div class={todo.done ? 'transition duration-300 opacity-50 relative' : 'relative'}>
-			<input oninput={editTodo} data-index={i} value={todo.text} type="text" />
-			<input onchange={toggleTodo} data-index={i} checked={todo.done} type="checkbox" />
-			<button onclick={deleteTodo} data-index={i}>Delete</button>
+			<div class="flex ">
+            <input class="input-text" oninput={editTodo} data-index={i} value={todo.text} type="text" />
+            <div class="flex flex-col items-center border-2 border-yellow-100">
+			<input class="input-checkbox" onchange={toggleTodo} data-index={i} checked={todo.done} type="checkbox" />
+			<button onclick={deleteTodo} data-index={i}><DeleteIcon/></button>
+		    </div>
+		    </div>
 		</div>
 	{/each}
 </div>
 
-<div class="m-4">
+<div class="m-4 w-full flex justify-evenly">
 	{#each ['all', 'active', 'completed'] as filter}
-		<button onclick={() => setFilter(filter)}>{filter}</button>
+		<button class={capitalize} onclick={() => setFilter(filter)}>{filter}</button>
 	{/each}
-	<button onclick={clearCompleted}>Clear completed</button>
+	<button class={buttonStyle} onclick={clearCompleted}>Clear completed</button>
 </div>
 
 <p>{remaining()} items left</p>
-
-<style>
-
-
-	input[type='text'] {
-		background: #263238;
-		width: 100%;
-		padding: 1rem;
-	}
-
-	input[type='checkbox'] {
-		position: absolute;
-		right: 4%;
-		top: 50%;
-		translate: 0% -50%;
-	}
-
-	button {
-		margin-inline-end: 1rem;
-		background: #727475;
-		border: none;
-		padding: 0.5rem 1rem;
-		border-radius: 0.25rem;
-		cursor: pointer;
-		transition: All 0.3s;
-	}
-</style>

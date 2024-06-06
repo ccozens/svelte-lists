@@ -7,3 +7,10 @@
         @apply text-yellow-50;
     }
 }
+
+@layer components {
+    .input-text {
+        @apply bg-indigo-950 w-full p-4;
+    }
+    
+}
