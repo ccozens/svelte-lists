@@ -97,7 +97,7 @@ import DeleteIcon from '$lib/icons/delete.svelte';
 	}
 
     let capitalize="capitalize"
-    let buttonStyle = "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 rounded"
+    let buttonStyle = "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 rounded-lg"
 </script>
 
 <input onkeydown={addTodo} placeholder="Add todo" type="text" class="input-text m-4"/>
@@ -118,7 +118,7 @@ import DeleteIcon from '$lib/icons/delete.svelte';
 
 <div class="m-4 w-full flex justify-evenly">
 	{#each ['all', 'active', 'completed'] as filter}
-		<button class={capitalize} onclick={() => setFilter(filter)}>{filter}</button>
+		<button class={buttonStyle} onclick={() => setFilter(filter)}>{filter}</button>
 	{/each}
 	<button class={buttonStyle} onclick={clearCompleted}>Clear completed</button>
 </div>
