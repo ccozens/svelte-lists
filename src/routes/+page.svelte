@@ -96,8 +96,7 @@ import DeleteIcon from '$lib/icons/delete.svelte';
 		return todos.filter((todo) => !todo.done).length;
 	}
 
-    let capitalize="capitalize"
-    let buttonStyle = "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 rounded-lg"
+    let buttonStyle = "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-3 rounded-lg"
 </script>
 
 <input onkeydown={addTodo} placeholder="Add todo" type="text" class="input-text m-4"/>
@@ -107,8 +106,8 @@ import DeleteIcon from '$lib/icons/delete.svelte';
 		<div class={todo.done ? 'transition duration-300 opacity-50 relative' : 'relative'}>
 			<div class="flex ">
             <input class="input-text" oninput={editTodo} data-index={i} value={todo.text} type="text" />
-            <div class="flex flex-col items-center border-2 border-yellow-100">
-			<input class="input-checkbox" onchange={toggleTodo} data-index={i} checked={todo.done} type="checkbox" />
+            <div class="flex flex-col items-center justify-evenly">
+			<input class="" onchange={toggleTodo} data-index={i} checked={todo.done} type="checkbox" />
 			<button onclick={deleteTodo} data-index={i}><DeleteIcon/></button>
 		    </div>
 		    </div>
@@ -116,9 +115,9 @@ import DeleteIcon from '$lib/icons/delete.svelte';
 	{/each}
 </div>
 
-<div class="m-4 w-full flex justify-evenly">
+<div class="m-4 flex justify-between">
 	{#each ['all', 'active', 'completed'] as filter}
-		<button class={buttonStyle} onclick={() => setFilter(filter)}>{filter}</button>
+		<button class="{buttonStyle} capitalize" onclick={() => setFilter(filter)}>{filter}</button>
 	{/each}
 	<button class={buttonStyle} onclick={clearCompleted}>Clear completed</button>
 </div>
