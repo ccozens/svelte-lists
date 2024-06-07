@@ -1,6 +1,5 @@
 <script lang="ts">
-
-import DeleteIcon from '$lib/icons/delete.svelte';
+	import DeleteIcon from '$lib/icons/delete.svelte';
 
 	type Todo = {
 		text: string;
@@ -96,30 +95,40 @@ import DeleteIcon from '$lib/icons/delete.svelte';
 		return todos.filter((todo) => !todo.done).length;
 	}
 
-    let buttonStyle = "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-3 rounded-lg"
+	let buttonStyle = 'bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 p-3 rounded-lg';
+	let buttonActive = 'transition duration-600 active:ring-2 active:ring-offset-2 active:ring-pink-700';
+	let buttonFocus = 'transition duration-300 focus:ring-2 focus:ring-offset-2 focus:ring-pink-700';
 </script>
 
-<input onkeydown={addTodo} placeholder="Add todo" type="text" class="input-text m-4"/>
+<input onkeydown={addTodo} placeholder="Add todo" type="text" class="input-text m-4" />
 
 <div class="grid gap-4 m-4">
 	{#each filteredTodos as todo, i}
 		<div class={todo.done ? 'transition duration-300 opacity-50 relative' : 'relative'}>
-			<div class="flex ">
-            <input class="input-text" oninput={editTodo} data-index={i} value={todo.text} type="text" />
-            <div class="flex flex-col items-center justify-evenly">
-			<input class="" onchange={toggleTodo} data-index={i} checked={todo.done} type="checkbox" />
-			<button onclick={deleteTodo} data-index={i}><DeleteIcon/></button>
-		    </div>
-		    </div>
+			<div class="flex">
+				<input class="input-text" oninput={editTodo} data-index={i} value={todo.text} type="text" />
+				<div class="flex flex-col items-center justify-evenly">
+					<input
+						class=""
+						onchange={toggleTodo}
+						data-index={i}
+						checked={todo.done}
+						type="checkbox"
+					/>
+					<button onclick={deleteTodo} data-index={i}><DeleteIcon /></button>
+				</div>
+			</div>
 		</div>
 	{/each}
 </div>
 
 <div class="m-4 flex justify-between">
 	{#each ['all', 'active', 'completed'] as filter}
-		<button class="{buttonStyle} capitalize" onclick={() => setFilter(filter)}>{filter}</button>
+		<button class="{buttonStyle} {buttonFocus} capitalize" onclick={() => setFilter(filter)}>
+				{filter}
+		</button>
 	{/each}
-	<button class={buttonStyle} onclick={clearCompleted}>Clear completed</button>
+	<button class="{buttonStyle} {buttonActive}" onclick={clearCompleted}>Clear completed</button>
 </div>
 
 <p>{remaining()} items left</p>
