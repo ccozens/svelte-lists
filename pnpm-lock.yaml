@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  '@fontsource-variable/inter':
+    specifier: ^5.0.18
+    version: 5.0.18
+
 devDependencies:
   '@playwright/test':
     specifier: ^1.28.1
@@ -340,6 +345,10 @@ packages:
     resolution: {integrity: sha512-HAbhAYKfsAC2EkTqve00ibWIZlaU74Z1EHwAjYr4PXF0YU2VEA1zSIKSSpKszRLRWwHzzRZXvK632u+uXzvsvw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     dev: true
+
+  /@fontsource-variable/inter@5.0.18:
+    resolution: {integrity: sha512-rJzSrtJ3b7djiGFvRuTe6stDfbYJGhdQSfn2SI2WfXviee7Er0yKAHE5u7FU7OWVQQQ1x3+cxdmx9NdiAkcrcA==}
+    dev: false
 
   /@humanwhocodes/module-importer@1.0.1:
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
