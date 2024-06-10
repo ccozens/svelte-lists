@@ -70,6 +70,7 @@
 	function deleteTodo(event: Event) {
 		const inputEl = event.target as HTMLInputElement;
 		const index = +inputEl.dataset.index!;
+		console.log('pressed', index);
 		todos = todos.filter((todo, i) => i !== index);
 	}
 
@@ -96,7 +97,8 @@
 	}
 
 	let buttonStyle = 'bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 p-3 rounded-lg';
-	let buttonActive = 'transition duration-600 active:ring-2 active:ring-offset-2 active:ring-pink-700';
+	let buttonActive =
+		'transition duration-600 active:ring-2 active:ring-offset-2 active:ring-pink-700';
 	let buttonFocus = 'transition duration-300 focus:ring-2 focus:ring-offset-2 focus:ring-pink-700';
 </script>
 
@@ -115,7 +117,7 @@
 						checked={todo.done}
 						type="checkbox"
 					/>
-					<button onclick={deleteTodo} data-index={i}><DeleteIcon /></button>
+					<DeleteIcon onclick={deleteTodo} dataIndex={i} />
 				</div>
 			</div>
 		</div>
@@ -125,10 +127,11 @@
 <div class="m-4 flex justify-between">
 	{#each ['all', 'active', 'completed'] as filter}
 		<button class="{buttonStyle} {buttonFocus} capitalize" onclick={() => setFilter(filter)}>
-				{filter}
+			{filter}
 		</button>
 	{/each}
 	<button class="{buttonStyle} {buttonActive}" onclick={clearCompleted}>Clear completed</button>
 </div>
 
 <p>{remaining()} items left</p>
+<p></p>
