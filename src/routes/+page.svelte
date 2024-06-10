@@ -1,77 +1,26 @@
 <script lang="ts">
-	import DeleteIcon from '$lib/icons/delete.svelte';
+	import type { Todo, Filters } from './types';
+	import { groupedTodos } from './todos';
 
-	type Todo = {
-		text: string;
-		done: boolean;
-	};
-	type Filters = 'all' | 'active' | 'completed';
-
-	let todos = $state<Todo[]>([]);
+	let todos = $state<Todo[]>(groupedTodos);
 	let filter = $state<Filters>('all');
 	let filteredTodos = $derived(filterTodos());
-
-	// get todos from local storage
-	$effect(() => {
-		// check for todos already stored
-		const savedTodos = localStorage.getItem('todos');
-		// if there are saved todos, set them to the todos array
-		if (savedTodos) {
-			todos = JSON.parse(savedTodos);
-		}
-	});
-
-	// save todos to local storage
-	$effect(() => {
-		localStorage.setItem('todos', JSON.stringify(todos));
-	});
-
-	// function to add todo
-	function addTodo(event: KeyboardEvent) {
-		// check if enter key was pressed
-		if (event.key !== 'Enter') return;
-
-		// type todo
-		const todoElement = event.target as HTMLInputElement;
-		const text = todoElement.value;
-		// add to todos array
-		todos = [...todos, { text, done: false }];
-
-		// blank input after adding to array
-		todoElement.value = '';
-	}
-
-	// function to edit todo
-	function editTodo(event: Event) {
-		// extract and type todo
-		const inputEl = event.target as HTMLInputElement;
-		// get index
-		// works as set data-index={i} on input in HTML markup
-		// note '+' casts it as a number and ! silences ts error
-		const index = +inputEl.dataset.index!;
-
-		// reassign todo text in array
-		todos[index].text = inputEl.value;
-	}
 
 	// function to toggle todo
 	function toggleTodo(event: Event) {
 		const inputEl = event.target as HTMLInputElement;
-		const index = +inputEl.dataset.index!;
-		todos[index].done = !todos[index].done;
+		const todoIndex = +inputEl.dataset.todoindex!;
+		const taskIndex = +inputEl.dataset.taskindex!;
+		const task = todos[todoIndex].tasks[taskIndex];
+		task.done = !task.done;
 	}
 
-	// function to uncomplete all todos
+	// // function to uncheck all todos
 	function clearCompleted() {
-		todos = todos.map((todo) => ({ ...todo, done: false }));
-	}
-
-	// function to delete todo
-	function deleteTodo(event: Event) {
-		const inputEl = event.target as HTMLInputElement;
-		const index = +inputEl.dataset.index!;
-		console.log('pressed', index);
-		todos = todos.filter((todo, i) => i !== index);
+		todos = todos.map((todo) => ({
+			...todo,
+			tasks: todo.tasks.map((task) => ({ ...task, done: false }))
+		}));
 	}
 
 	// function to set filter
@@ -85,16 +34,18 @@
 			case 'all':
 				return todos;
 			case 'active':
-				return todos.filter((todo) => !todo.done);
+				return todos.map((todo) => ({
+					...todos,
+					tasks: todo.tasks.filter((task) => !task.done)
+				}));
 			case 'completed':
-				return todos.filter((todo) => todo.done);
+				return todos.map((todo) => ({
+					...todos,
+					tasks: todo.tasks.filter((task) => task.done)
+				}));
 		}
 	}
 
-	// return count of todos still todo
-	function remaining() {
-		return todos.filter((todo) => !todo.done).length;
-	}
 
 	let buttonStyle = 'bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 p-3 rounded-lg';
 	let buttonActive =
@@ -102,24 +53,21 @@
 	let buttonFocus = 'transition duration-300 focus:ring-2 focus:ring-offset-2 focus:ring-pink-700';
 </script>
 
-<input onkeydown={addTodo} placeholder="Add todo" type="text" class="input-text m-4" />
-
 <div class="grid gap-4 m-4">
-	{#each filteredTodos as todo, i}
-		<div class={todo.done ? 'transition duration-300 opacity-50 relative' : 'relative'}>
-			<div class="flex">
-				<input class="input-text" oninput={editTodo} data-index={i} value={todo.text} type="text" />
-				<div class="flex flex-col items-center justify-evenly">
-					<input
-						class=""
-						onchange={toggleTodo}
-						data-index={i}
-						checked={todo.done}
-						type="checkbox"
-					/>
-					<DeleteIcon onclick={deleteTodo} dataIndex={i} />
-				</div>
-			</div>
+	{#each filteredTodos as todo, todoIndex}
+		<div class="">
+			<h2 class="text-3xl text-center my-3">{todo.heading}</h2>
+			{#each todo.tasks as task, taskIndex}
+				<button
+					onclick={toggleTodo}
+					data-todoIndex={todoIndex}
+					data-taskIndex={taskIndex}
+					class={task.done
+						? 'bg-indigo-950 w-full p-2 m-2 rounded-sm transition duration-300 opacity-10 '
+						: 'bg-indigo-950 w-full p-2 m-2 rounded-sm '}
+					>{task.text}
+				</button>
+			{/each}
 		</div>
 	{/each}
 </div>
@@ -130,8 +78,5 @@
 			{filter}
 		</button>
 	{/each}
-	<button class="{buttonStyle} {buttonActive}" onclick={clearCompleted}>Clear completed</button>
+	<button class="{buttonStyle} {buttonActive}" onclick={clearCompleted}>Uncheck all</button>
 </div>
-
-<p>{remaining()} items left</p>
-<p></p>
