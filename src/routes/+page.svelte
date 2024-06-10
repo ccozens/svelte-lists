@@ -21,6 +21,8 @@
 			...todo,
 			tasks: todo.tasks.map((task) => ({ ...task, done: false }))
 		}));
+		// set filter to all
+		setFilter('all');
 	}
 
 	// function to set filter
@@ -55,14 +57,14 @@
 <div class="grid gap-4 m-4">
 	{#each filteredTodos as todo, todoIndex}
 		<div class="flex flex-col items-center bg-slate-900 border-2 border-slate-600">
-			<h2 class="text-3xl text-center my-3 ">{todo.heading}</h2>
+			<h2 class="text-3xl text-center my-3">{todo.heading}</h2>
 			{#each todo.tasks as task, taskIndex}
 				<button
 					onclick={toggleTodo}
 					data-todoIndex={todoIndex}
 					data-taskIndex={taskIndex}
 					class={task.done
-						? 'bg-slate-800 p-2 mb-1 rounded-sm transition duration-300 opacity-10 '
+						? 'bg-slate-700 p-2 w-11/12 mb-1 rounded-sm transition duration-300 opacity-10 '
 						: 'bg-slate-700 opacity-90 w-11/12 p-2 mb-1 rounded-sm'}
 					>{task.text}
 				</button>
