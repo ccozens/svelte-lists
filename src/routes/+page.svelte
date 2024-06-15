@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Todo, Filters } from './types';
+	import type { Todo, Filters } from '../lib/types';
 	import { groupedTodos } from './todos';
 
 	let todos = $state<Todo[]>(groupedTodos);

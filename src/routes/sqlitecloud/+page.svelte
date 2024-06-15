@@ -3,7 +3,7 @@
 	const serverTodos = data.todos;
 
 
-	import type { Todo, Filters } from './types';
+	import type { Todo, Filters } from '$types';
 
 	let todos = $state<Todo[]>(serverTodos);
 	console.log('todos', todos);
