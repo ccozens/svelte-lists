@@ -15,12 +15,26 @@ export const load: LayoutServerLoad = async () => {
 
 	await setDatabase();
 
-	const headings = await database.sql`SELECT * FROM todos`;
-	const tasks = await database.sql`SELECT * FROM tasks`;
-	console.log('headings', headings);
-	console.log('tasks', tasks);
+
+
+	// get data
+	const headings = await database.sql`SELECT * FROM headings`;
+	const tasks = await database.sql`SELECT todo_id, text, done FROM tasks`;
+	// console.log('headings', headings);
+	// console.log('tasks', tasks);
+
+	// join headings and tasks
+	const todos = headings.map(heading => {
+		return {
+			heading: heading.heading,
+			tasks: tasks.filter(task => task.todo_id === heading.id).map(task => ({
+				text: task.text,
+				done: task.done
+			}))
+		};
+	});
 
 	return {
-
+		todos
 	};
 };
