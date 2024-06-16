@@ -2,7 +2,6 @@
 	const { data } = $props();
 	const serverTodos = data.todos;
 
-
 	import type { Todo, Filters } from '$types';
 
 	let todos = $state<Todo[]>(serverTodos);
@@ -78,7 +77,7 @@
 
 <div class="m-4 flex justify-between">
 	{#each ['all', 'active', 'completed'] as filter}
-		<button class="{buttonStyle} {buttonFocus} capitalize" onclick={() => setFilter(filter)}>
+		<button class="{buttonStyle} {buttonFocus} capitalize" onclick={() => setFilter(filter as Filters)}>
 			{filter}
 		</button>
 	{/each}
