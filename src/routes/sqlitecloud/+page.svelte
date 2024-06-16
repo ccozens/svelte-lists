@@ -61,15 +61,19 @@
 		<div class="flex flex-col items-center bg-slate-900 border-2 border-slate-600">
 			<h2 class="text-3xl text-center my-3">{todo.heading}</h2>
 			{#each todo.tasks as task, taskIndex}
-				<button
-					onclick={toggleTodo}
+				<input
+					id="task-{taskIndex}"
+					type="checkbox"
+					bind:checked={task.done}
 					data-todoIndex={todoIndex}
 					data-taskIndex={taskIndex}
-					class={task.done
-						? 'bg-slate-700 p-2 w-11/12 mb-1 rounded-sm transition duration-300 opacity-10 '
-						: 'bg-slate-700 opacity-90 w-11/12 p-2 mb-1 rounded-sm'}
-					>{task.text}
-				</button>
+					hidden
+				/>
+				<label for="task-{taskIndex}" class={task.done
+					? 'bg-slate-700 p-2 w-11/12 mb-1 rounded-sm transition duration-300 opacity-10 '
+					: 'bg-slate-700 opacity-90 w-11/12 p-2 mb-1 rounded-sm'}>
+					{task.text}
+				</label>
 			{/each}
 		</div>
 	{/each}
@@ -77,7 +81,10 @@
 
 <div class="m-4 flex justify-between">
 	{#each ['all', 'active', 'completed'] as filter}
-		<button class="{buttonStyle} {buttonFocus} capitalize" onclick={() => setFilter(filter as Filters)}>
+		<button
+			class="{buttonStyle} {buttonFocus} capitalize"
+			onclick={() => setFilter(filter as Filters)}
+		>
 			{filter}
 		</button>
 	{/each}
