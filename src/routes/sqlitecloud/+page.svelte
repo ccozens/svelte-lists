@@ -6,7 +6,6 @@
 	import type { Todo, Filters } from '$types';
 
 	let todos = $state<Todo[]>(serverTodos);
-	console.log('todos', todos);
 	let filter = $state<Filters>('all');
 	let filteredTodos = $derived(filterTodos());
 
@@ -41,12 +40,12 @@
 				return todos;
 			case 'active':
 				return todos.map((todo) => ({
-					...todos,
+					...todo,
 					tasks: todo.tasks.filter((task) => !task.done)
 				}));
 			case 'completed':
 				return todos.map((todo) => ({
-					...todos,
+					...todo,
 					tasks: todo.tasks.filter((task) => task.done)
 				}));
 		}
