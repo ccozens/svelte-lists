@@ -36,6 +36,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@fontsource-variable/inter": "^5.0.18"
+		"@fontsource-variable/inter": "^5.0.18",
+		"@sqlitecloud/drivers": "^1.0.122"
 	}
 }
