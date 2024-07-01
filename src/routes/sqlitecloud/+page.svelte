@@ -2,7 +2,6 @@
 	const { data } = $props();
 
 	const serverTodos = data.todos;
-	console.log(serverTodos[0].tasks[0]);
 	import type { Todo, Filters } from '$types';
 
 	let todos = $state<Todo[]>(serverTodos);
@@ -62,7 +61,7 @@
 		<div class="flex flex-col items-center bg-slate-900 border-2 border-slate-600">
 			<h2 class="text-3xl text-center my-3">{todo.heading}</h2>
 			{#each todo.tasks as task, taskIndex}
-				<form method="POST" class="w-11/12 rounded-sm">
+				<form method="POST" action="?/toggle" class="w-11/12 rounded-sm">
 					<input name="id" bind:value={task.id} class="hidden" />
 					<input name="status" bind:value={task.done} class="hidden" />
 					<button
