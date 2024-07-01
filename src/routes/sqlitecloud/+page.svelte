@@ -61,19 +61,19 @@
 		<div class="flex flex-col items-center bg-slate-900 border-2 border-slate-600">
 			<h2 class="text-3xl text-center my-3">{todo.heading}</h2>
 			{#each todo.tasks as task, taskIndex}
-				<input
-					id="task-{taskIndex}"
-					type="checkbox"
-					bind:checked={task.done}
-					data-todoIndex={todoIndex}
-					data-taskIndex={taskIndex}
-					hidden
-				/>
-				<label for="task-{taskIndex}" class={task.done
-					? 'bg-slate-700 p-2 w-11/12 mb-1 rounded-sm transition duration-300 opacity-10 '
-					: 'bg-slate-700 opacity-90 w-11/12 p-2 mb-1 rounded-sm'}>
-					{task.text}
-				</label>
+				<form method="POST" class="w-11/12 rounded-sm">
+					<input name="done" bind:value={task.done} class="hidden" />
+					<button
+						type="submit"
+						onclick={toggleTodo}
+						data-todoIndex={todoIndex}
+						data-taskIndex={taskIndex}
+						class={task.done
+							? ' w-full p-2 mb-1 transition duration-300 opacity-10 '
+							: 'bg-slate-700 opacity-90 w-full p-2 mb-1 '}
+						>{task.text}
+					</button>
+				</form>
 			{/each}
 		</div>
 	{/each}
