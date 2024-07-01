@@ -1,19 +1,8 @@
 import type { LayoutServerLoad } from './$types';
 import type { Heading, Todo, TaskWithID } from '$types';
-
-import { Database } from '@sqlitecloud/drivers';
-import { SQLITECLOUD_CONNECTION_STRING } from '$env/static/private';
+import { database } from '../hooks.server';
 
 export const load: LayoutServerLoad = async () => {
-	const database = new Database(SQLITECLOUD_CONNECTION_STRING);
-
-	// set database to use
-	const setDatabase = async () => {
-		await database.sql`USE DATABASE svelte_lists.sqlite`;
-	};
-
-	await setDatabase();
-
 	// get data
 	const headings: Heading[] = await database.sql`SELECT * FROM headings`;
 	const tasks: TaskWithID[] = await database.sql`SELECT todo_id, id, text, done FROM tasks`;

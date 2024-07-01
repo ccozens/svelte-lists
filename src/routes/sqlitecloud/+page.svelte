@@ -2,7 +2,7 @@
 	const { data } = $props();
 
 	const serverTodos = data.todos;
-
+	console.log(serverTodos[0].tasks[0]);
 	import type { Todo, Filters } from '$types';
 
 	let todos = $state<Todo[]>(serverTodos);
