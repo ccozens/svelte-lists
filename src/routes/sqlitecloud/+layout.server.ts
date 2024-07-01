@@ -16,9 +16,7 @@ export const load: LayoutServerLoad = async () => {
 
 	// get data
 	const headings: Heading[] = await database.sql`SELECT * FROM headings`;
-	const tasks: TaskWithID[] = await database.sql`SELECT todo_id, text, done FROM tasks`;
-	// console.log('headings', headings);
-	// console.log('tasks', tasks);
+	const tasks: TaskWithID[] = await database.sql`SELECT todo_id, id, text, done FROM tasks`;
 
 	// join headings and tasks
 	const todos: Todo[] = headings.map((heading) => {
@@ -27,6 +25,7 @@ export const load: LayoutServerLoad = async () => {
 			tasks: tasks
 				.filter((task) => task.todo_id === heading.id)
 				.map((task) => ({
+					id: task.id,
 					text: task.text,
 					done: task.done
 				}))

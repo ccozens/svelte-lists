@@ -1,5 +1,6 @@
 <script lang="ts">
 	const { data } = $props();
+
 	const serverTodos = data.todos;
 
 	import type { Todo, Filters } from '$types';
@@ -62,7 +63,8 @@
 			<h2 class="text-3xl text-center my-3">{todo.heading}</h2>
 			{#each todo.tasks as task, taskIndex}
 				<form method="POST" class="w-11/12 rounded-sm">
-					<input name="done" bind:value={task.done} class="hidden" />
+					<input name="id" bind:value={task.id} class="hidden" />
+					<input name="status" bind:value={task.done} class="hidden" />
 					<button
 						type="submit"
 						onclick={toggleTodo}

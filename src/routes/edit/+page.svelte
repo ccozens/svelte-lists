@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import DeleteIcon from '$lib/icons/delete.svelte';
 
 	type Todo = {
@@ -135,3 +135,4 @@
 
 <p>{remaining()} items left</p>
 <p></p>
+ -->

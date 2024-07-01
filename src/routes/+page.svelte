@@ -57,7 +57,7 @@
 <div class="grid gap-4 m-4">
 	{#each filteredTodos as todo, todoIndex}
 		<div class="flex flex-col items-center bg-slate-900 border-2 border-slate-600">
-			<h2 class="text-3xl text-center my-3">{todo.heading}</h2>
+			<!-- <h2 class="text-3xl text-center my-3">{todo.heading}</h2> -->
 			{#each todo.tasks as task, taskIndex}
 				<button
 					onclick={toggleTodo}

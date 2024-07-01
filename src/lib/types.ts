@@ -1,6 +1,7 @@
 export type Task = {
 	text: string;
 	done: boolean;
+	id: number;
 };
 
 export type Todo = {
@@ -9,7 +10,7 @@ export type Todo = {
 };
 export interface TaskWithID extends Task {
 	todo_id: number;
-};
+}
 
 export type Heading = {
 	id: number;
