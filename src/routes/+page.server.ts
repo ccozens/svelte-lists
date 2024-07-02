@@ -1,5 +1,5 @@
 import type { Actions } from './$types';
-import { database } from './hooks.server';
+import { database } from '$hooks';
 
 export const actions = {
 	toggle: async ({ request }) => {

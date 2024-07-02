@@ -1,4 +1,4 @@
-<script lang="ts">./sqlitecloud/$types.js
+<script lang="ts">
 	const { data } = $props();
 
 	const serverTodos = data.todos;

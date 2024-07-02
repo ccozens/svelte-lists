@@ -14,7 +14,8 @@ const config = {
 		adapter: adapter(),
 
 		alias: {
-			$types: './src/lib/types'
+			$types: './src/lib/types',
+			$hooks: './src/hooks.server'
 		}
 	}
 };

@@ -1,6 +1,6 @@
 import type { LayoutServerLoad } from './$types';
 import type { Heading, Todo, TaskWithID } from '$types';
-import { database } from '../hooks.server';
+import { database } from '$hooks';
 
 export const load: LayoutServerLoad = async () => {
 	// get data
