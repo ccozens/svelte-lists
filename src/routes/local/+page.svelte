@@ -1,10 +1,8 @@
 <script lang="ts">
-	const { data } = $props();
+	import type { Todo, Filters } from '$lib/types';
+	import { groupedTodos } from './todos';
 
-	const serverTodos = data.todos;
-	import type { Todo, Filters } from '$types';
-
-	let todos = $state<Todo[]>(serverTodos);
+	let todos = $state<Todo[]>(groupedTodos);
 	let filter = $state<Filters>('all');
 	let filteredTodos = $derived(filterTodos());
 
@@ -18,7 +16,7 @@
 	}
 
 	// // function to uncheck all todos
-	function uncheckAll() {
+	function clearCompleted() {
 		todos = todos.map((todo) => ({
 			...todo,
 			tasks: todo.tasks.map((task) => ({ ...task, done: false }))
@@ -39,12 +37,12 @@
 				return todos;
 			case 'active':
 				return todos.map((todo) => ({
-					...todo,
+					...todos,
 					tasks: todo.tasks.filter((task) => !task.done)
 				}));
 			case 'completed':
 				return todos.map((todo) => ({
-					...todo,
+					...todos,
 					tasks: todo.tasks.filter((task) => task.done)
 				}));
 		}
@@ -59,22 +57,17 @@
 <div class="grid gap-4 m-4">
 	{#each filteredTodos as todo, todoIndex}
 		<div class="flex flex-col items-center bg-slate-900 border-2 border-slate-600">
-			<h2 class="text-3xl text-center my-3">{todo.heading}</h2>
+			<!-- <h2 class="text-3xl text-center my-3">{todo.heading}</h2> -->
 			{#each todo.tasks as task, taskIndex}
-				<form method="POST" action="?/toggle" class="w-11/12 rounded-sm">
-					<input name="id" bind:value={task.id} class="hidden" />
-					<input name="status" bind:value={task.done} class="hidden" />
-					<button
-						type="submit"
-						onclick={toggleTodo}
-						data-todoIndex={todoIndex}
-						data-taskIndex={taskIndex}
-						class={task.done
-							? ' w-full p-2 mb-1 transition duration-300 opacity-10 '
-							: 'bg-slate-700 opacity-90 w-full p-2 mb-1 '}
-						>{task.text}
-					</button>
-				</form>
+				<button
+					onclick={toggleTodo}
+					data-todoIndex={todoIndex}
+					data-taskIndex={taskIndex}
+					class={task.done
+						? 'bg-slate-700 p-2 w-11/12 mb-1 rounded-sm transition duration-300 opacity-10 '
+						: 'bg-slate-700 opacity-90 w-11/12 p-2 mb-1 rounded-sm'}
+					>{task.text}
+				</button>
 			{/each}
 		</div>
 	{/each}
@@ -82,15 +75,9 @@
 
 <div class="m-4 flex justify-between">
 	{#each ['all', 'active', 'completed'] as filter}
-		<button
-			class="{buttonStyle} {buttonFocus} capitalize"
-			onclick={() => setFilter(filter as Filters)}
-		>
+		<button class="{buttonStyle} {buttonFocus} capitalize" onclick={() => setFilter(filter)}>
 			{filter}
 		</button>
 	{/each}
-	<!-- <button class="{buttonStyle} {buttonActive}" onclick={clearCompleted}>Uncheck all</button> -->
-	<form method="POST" action="?/uncheckAll">
-		<button class="{buttonStyle} {buttonActive}">Uncheck all</button>
-	</form>
+	<button class="{buttonStyle} {buttonActive}" onclick={clearCompleted}>Uncheck all</button>
 </div>
