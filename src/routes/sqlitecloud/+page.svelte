@@ -18,7 +18,7 @@
 	}
 
 	// // function to uncheck all todos
-	function clearCompleted() {
+	function uncheckAll() {
 		todos = todos.map((todo) => ({
 			...todo,
 			tasks: todo.tasks.map((task) => ({ ...task, done: false }))
@@ -89,5 +89,8 @@
 			{filter}
 		</button>
 	{/each}
-	<button class="{buttonStyle} {buttonActive}" onclick={clearCompleted}>Uncheck all</button>
+	<!-- <button class="{buttonStyle} {buttonActive}" onclick={clearCompleted}>Uncheck all</button> -->
+	<form method="POST" action="?/uncheckAll">
+		<button class="{buttonStyle} {buttonActive}">Uncheck all</button>
+	</form>
 </div>

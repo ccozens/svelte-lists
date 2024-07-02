@@ -23,5 +23,16 @@ export const actions = {
 			console.error('Error updating todo:', error);
 			return { error: 'Failed to update todo' };
 		}
+	},
+
+	uncheckAll: async () => {
+		try {
+			await database.sql`UPDATE tasks SET done = 0`;
+		} catch (error) {
+			console.error('Error updating todos:', error);
+			return { error: 'Failed to update todos' };
+		}
+
+		// No explicit return needed here, as successful update falls through
 	}
 } satisfies Actions;
