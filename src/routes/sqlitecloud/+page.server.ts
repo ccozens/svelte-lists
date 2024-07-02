@@ -7,9 +7,21 @@ export const actions = {
 		const todoToUpdate = data.get('id');
 		const todoStatus = data.get('status');
 
-		// update todo
-		await database.sql`UPDATE tasks SET done = ${todoStatus} WHERE id = ${todoToUpdate}`;
-		// re-render page
-		return {};
+		// Validate input
+		if (!todoToUpdate || !todoStatus) {
+			return { error: 'Missing required data (id or status)' };
+		}
+
+		// replace boolean value with 1 or 0
+		const todoStatusValue = todoStatus === 'true' ? 1 : 0;
+
+		// update database with try/catch for error handling
+		try {
+			await database.sql`UPDATE tasks SET done = ${todoStatusValue} WHERE id = ${todoToUpdate}`;
+			// No explicit return needed here, as successful update falls through
+		} catch (error) {
+			console.error('Error updating todo:', error);
+			return { error: 'Failed to update todo' };
+		}
 	}
 } satisfies Actions;
