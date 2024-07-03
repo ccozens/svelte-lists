@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 	import { afterNavigate } from '$app/navigation';
 
-	const { data } = $props();
+	const { data, form } = $props();
 
 	const serverTodos = data.todos;
 
@@ -58,7 +58,13 @@
 	let buttonActive = 'transition duration-600 active:ring-2 active:ring-offset-2 active:ring-pink-700';
 	let buttonFocus = 'transition duration-300 focus:ring-2 focus:ring-offset-2 focus:ring-pink-700';
 
-	
+	// function to reset state update if form returns an error
+	afterNavigate(() => {
+		if (form?.error) {
+			todos = $state<Todo[]>(serverTodos);
+		}
+	})
+
 </script>
 
 <div class="grid gap-4 m-4">

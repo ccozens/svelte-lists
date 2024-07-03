@@ -1,4 +1,5 @@
 import type { Actions } from './$types';
+import { fail } from '@sveltejs/kit';
 import { database } from '$hooks';
 
 export const actions = {
@@ -19,18 +20,20 @@ export const actions = {
 		try {
 			await database.sql`UPDATE tasks SET done = ${todoStatusValue} WHERE id = ${todoToUpdate}`;
 			// No explicit return needed here, as successful update falls through
-		} catch (error) {
-			console.error('Error updating todo:', error);
-			return { error: 'Failed to update todo' };
+		} catch {
+			return fail(422, {
+				error: 'Failed to update todo'
+			});
 		}
 	},
 
 	uncheckAll: async () => {
 		try {
 			await database.sql`UPDATE tasks SET done = 0`;
-		} catch (error) {
-			console.error('Error updating todos:', error);
-			return { error: 'Failed to update todos' };
+		} catch {
+			return fail(422, {
+				error: 'Failed to reset todos'
+			});
 		}
 
 		// No explicit return needed here, as successful update falls through
