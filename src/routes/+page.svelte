@@ -80,7 +80,7 @@
 					<input name="id" bind:value={task.id} type="hidden" />
 					<input name="status" bind:value={task.done} type="hidden" />
 					<button
-					onclick={toggleTodo}
+						onclick={toggleTodo}
 						data-todoIndex={todoIndex}
 						data-taskIndex={taskIndex}
 						class={task.done
