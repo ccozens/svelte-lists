@@ -76,10 +76,11 @@
 		<div class="flex flex-col items-center bg-slate-900 border-2 border-slate-600">
 			<h2 class="text-3xl text-center my-3">{todo.heading}</h2>
 			{#each todo.tasks as task, taskIndex}
-				<form method="POST" action="?/toggle" onclick={toggleTodo} class="w-11/12 rounded-sm" use:enhance>
+				<form method="POST" action="?/toggle"  class="w-11/12 rounded-sm" use:enhance>
 					<input name="id" bind:value={task.id} type="hidden" />
 					<input name="status" bind:value={task.done} type="hidden" />
 					<button
+					onclick={toggleTodo}
 						data-todoIndex={todoIndex}
 						data-taskIndex={taskIndex}
 						class={task.done
