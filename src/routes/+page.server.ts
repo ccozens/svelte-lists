@@ -1,5 +1,5 @@
 import type { Actions } from './$types';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { database } from '$hooks';
 
 export const actions = {
@@ -25,17 +25,22 @@ export const actions = {
 				error: 'Failed to update todo'
 			});
 		}
+
+		// redirect to home page
+		redirect(303, '/');
 	},
 
 	uncheckAll: async () => {
 		try {
 			await database.sql`UPDATE tasks SET done = 0`;
+			// No explicit return needed here, as successful update falls through
 		} catch {
 			return fail(422, {
 				error: 'Failed to reset todos'
 			});
 		}
 
-		// No explicit return needed here, as successful update falls through
+		// redirect to home page
+		redirect(303, '/');
 	}
 } satisfies Actions;
