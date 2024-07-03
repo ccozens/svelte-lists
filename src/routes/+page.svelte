@@ -1,12 +1,16 @@
 <script lang="ts">
+	// imports
 	import type { Todo, Filters } from '$types';
 	import { enhance } from '$app/forms';
 	import { afterNavigate } from '$app/navigation';
 
+	// props
 	const { data, form } = $props();
 
+	// server state
 	const serverTodos = data.todos;
 
+	// state management
 	let todos = $state<Todo[]>(serverTodos);
 	let filter = $state<Filters>('all');
 	let filteredTodos = $derived(filterTodos());
@@ -76,7 +80,6 @@
 					<input name="id" bind:value={task.id} type="hidden" />
 					<input name="status" bind:value={task.done} type="hidden" />
 					<button
-						id="todo-button"
 						data-todoIndex={todoIndex}
 						data-taskIndex={taskIndex}
 						class={task.done
