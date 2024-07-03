@@ -65,7 +65,7 @@
 	// function to reset state update if form returns an error
 	afterNavigate(() => {
 		if (form?.error) {
-			todos = $state<Todo[]>(serverTodos);
+			todos = serverTodos;
 		}
 	})
 
