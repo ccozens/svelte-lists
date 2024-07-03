@@ -26,6 +26,8 @@ export const actions = {
 			});
 		}
 
+		// redirect to home page
+		redirect(303, '/');
 	},
 
 	uncheckAll: async () => {
