@@ -12,7 +12,7 @@ export const actions = {
 		if (!todoToUpdate || !todoStatus) {
 			return { error: 'Missing required data (id or status)' };
 		}
-
+		
 		// replace boolean value with 1 or 0
 		const todoStatusValue = todoStatus === 'true' ? 1 : 0;
 

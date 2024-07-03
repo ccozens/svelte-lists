@@ -3,7 +3,7 @@
 	import type { Todo, Filters } from '$types';
 	import { enhance } from '$app/forms';
 	import { afterNavigate } from '$app/navigation';
-	
+
 	// props
 	const { data, form } = $props();
 
