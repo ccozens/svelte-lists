@@ -1,4 +1,4 @@
-
+/*
 import { json } from '@sveltejs/kit';
 import { database } from '../../../hooks.server';
 
@@ -20,3 +20,4 @@ export async function GET() {
     }, { status: 500 });
   }
 }
+*/
